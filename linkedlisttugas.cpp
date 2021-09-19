@@ -1,0 +1,256 @@
+#include <iostream>
+
+using namespace std;
+
+// deklarasi single linked list
+struct Angka{
+
+  int nomor;
+
+  Angka *next;
+
+};
+
+Angka *head, *tail, *cur, *newNode, *del, *before;
+
+// create single linked list
+void createSingleLinkedList(int nomor){
+  head = new Angka();
+  head->nomor = nomor;
+  head->next = NULL;
+  tail = head;
+}
+
+// count single linked list
+int countSingleLinkedList(){
+  cur = head;
+  int jumlah = 0;
+  while( cur != NULL ){
+    jumlah++;
+    cur = cur->next;
+  }
+  return jumlah;
+}
+
+// tambahAwal Single linked list
+void addFirst(int nomor){
+  newNode = new Angka();
+  newNode->nomor = nomor;
+  newNode->next = head;
+  head = newNode;
+}
+
+// tambahAkhir Single linked list
+void addLast(int nomor){
+  newNode = new Angka();
+  newNode->nomor = nomor;
+  newNode->next = NULL;
+  tail->next = newNode;
+  tail = newNode;
+}
+
+// tambahTengah Single linkend list
+void addMiddle(int nomor, int posisi){
+  if( posisi < 1 || posisi > countSingleLinkedList() ){
+	cout << endl;
+    cout << " !!! Posisi di Luar Jangkauan !!! " << endl;
+  }else if( posisi == 1){
+	cout << endl;
+    cout << " !!! Posisi Bukan Posisi Tengah !!! " << endl;
+  }
+  else
+  {
+    newNode = new Angka();
+    newNode->nomor = nomor;
+  
+  //tranversing
+  cur = head;
+  int pos = 1;
+  while ( pos < posisi - 1 ) {
+  cur = cur->next;
+  pos++; }
+  
+  newNode->next = cur->next;
+  cur->next = newNode;
+  }
+}
+
+
+// Remove First
+void removeFirst(){
+  del = head;
+  head = head->next;
+  delete del;
+}
+
+// Remove Last
+void removeLast(){
+  del = tail;
+  cur = head;
+  while( cur->next != tail ){
+    cur = cur->next;
+  }
+  tail = cur;
+  tail->next = NULL;
+  delete del;
+}
+
+// Remove middle
+void removeMiddle(int posisi) {
+	if( posisi < 1 || posisi > countSingleLinkedList() ){
+	cout << endl;
+    cout << " !!! Posisi di Luar Jangkauan !!! " << endl;
+  }else if( posisi == 1){
+	cout << endl;
+    cout << " !!! Posisi Bukan Posisi Tengah !!! " << endl;
+  }
+  else
+  {
+	int pos = 1;
+    cur = head;
+    while( pos <= posisi ){
+      if( pos == posisi-1 ){
+        before = cur;
+      }
+      if( pos == posisi ){
+        del = cur;
+      }
+      cur = cur->next;
+      pos++;
+    }
+    before->next = cur;
+    delete del;
+  }
+}
+
+
+// ubahAwal Single linked list
+void changeFirst(int nomor){
+  head->nomor = nomor;
+}
+
+// ubahAkhir Single linked list
+void changeLast(int nomor){
+  tail->nomor = nomor;
+}
+
+// ubah Tengah Single linked list
+void changeMiddle(int nomor, int posisi){
+  if( posisi < 1 || posisi > countSingleLinkedList() ){
+    cout << endl;
+    cout << " !!! Posisi di Luar Jangkauan !!! " << endl;
+  }else if( posisi == 1 || posisi == countSingleLinkedList() ){
+	cout << endl;
+    cout << " !!! Posisi Bukan Posisi Tengah !!! " << endl;
+  }
+  else
+  {
+    cur = head;
+    int pos = 1;
+    while( pos < posisi ){
+      cur = cur->next;
+      pos++;
+    }
+    cur->nomor = nomor;
+  }
+}
+
+
+// print single linked list
+void printSingleLinkedList(){
+  cur = head;
+  while( cur != NULL ){
+    cout << " " << cur->nomor;
+    cur = cur->next;
+  }
+}
+
+int main(){
+	int nomor, menu, posisi;
+	
+	char ulangi = 'y';
+	
+	cout << "Buat List Awal : "; cin >> nomor;
+	createSingleLinkedList(nomor);
+	
+	while (ulangi == 'y') {
+    cout << "==============================" << endl;
+    cout << "  PROGRAM MENYISIPKAN NILAI " << endl;
+    cout << "==============================" << endl;
+    cout << "1. Sisip Depan" << endl;
+    cout << "2. Sisip Belakang" << endl;
+    cout << "3. Ubah Depan" << endl;
+    cout << "4. Ubah Belakang" << endl;
+    cout << "5. Hapus Depan" << endl;
+    cout << "6. Hapus Belakang" << endl;
+    cout << "7. Sisip Tengah" << endl;
+    cout << "8. Hapus Tengah" << endl;
+    cout << "9. Ubah Tengah" << endl;
+    cout << "10. Exit" << endl;
+    cout << "==============================" << endl;
+    cout << "Pilihan Menu : "; cin >> menu;
+    cout << "==============================" << endl;
+	
+	if (menu == 1)
+    {
+		cout << " Masukkan Angka di Depan : "; cin >> nomor;
+		addFirst(nomor);
+    }
+    else if (menu == 2)
+    {
+		cout << " Masukkan Angka di Belakang : "; cin >> nomor;
+        addLast(nomor);
+    }
+    else if (menu == 3)
+    {
+		cout << " Masukkan Angka Baru di Depan : "; cin >> nomor;
+        changeFirst(nomor);
+    }
+    else if (menu == 4)
+    {
+		cout << " Masukkan Angka Baru di Belakang : "; cin >> nomor;
+        changeLast(nomor);
+    }
+    else if (menu == 5)
+    {
+        removeFirst();
+    }
+    else if (menu == 6)
+    {
+        removeLast(); 
+    }
+    else if (menu == 7)
+    {
+		cout << " Masukkan Angka Baru : "; cin >> nomor;
+		cout << " Angka Baru Berada di Posisi : ";cin >> posisi;
+		addMiddle(nomor, posisi);
+    }
+    else if (menu == 8)
+    {
+		cout << "Ingin Menghapus Angka yang Berada di Posisi : ";cin >> posisi;
+        removeMiddle(posisi);
+    }
+    else if (menu == 9)
+    {	
+		cout << " Masukkan Angka Baru : "; cin >> nomor;
+		cout << " Ubah Posisi : ";cin >> posisi;
+        changeMiddle(nomor, posisi);
+    }
+    else
+    {
+        exit(0);
+    }
+	cout << "==============================" << endl;
+	cout << endl;
+	printSingleLinkedList();
+	cout << "\n\n" << endl;
+	cout << "==============================" << endl;
+	cout << " Jumlah Data Ada : " << countSingleLinkedList() << endl;
+	cout << "==============================" << endl;
+	cout << "\n\n" << endl;
+	cout << " Apakah Anda Ingin Mengulang? (y/n) : ";
+	cin >> ulangi;
+	system("cls");
+	}
+
+}
